@@ -438,7 +438,7 @@ function handleAddToTeam(){
     let guard1 = document.getElementById('starting-guard-1')
     let guard2 = document.getElementById('starting-guard-2')
     let forward1 = document.getElementById('starting-forward-1')
-    let forward2 = document.getElementById('starting-forward-1')
+    let forward2 = document.getElementById('starting-forward-2')
     let center = document.getElementById('starting-center')
     
     // Handle Guard Selection
