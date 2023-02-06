@@ -32,6 +32,9 @@ let starting5 = {
     cost: 0,
     priceLimit: 25
 }
+let placeHolderCards = [
+    {id: 'starting-guard-1', text: 'Guard 1'}, {id: 'starting-guard-2', text: 'Guard 2'}, 
+    {id: 'starting-forward-1', text: 'Forward 1'}, {id: 'starting-forward-2', text: 'Forward 2'}, {id: 'starting-center', text: 'Center'},]
 
 // Create Player Class
 class Player{
@@ -98,7 +101,7 @@ async function fetchData(endPoint){
         break
         case 'stats':
             statsURL = `${url}players/statistics?id=${selectedPlayer.player.id}&season=${selectedPlayer.season}`
-            console.log(statsURL)
+            // console.log(statsURL)
             try {
                 res = await fetch(statsURL, options)
                 data = await res.json()
@@ -154,10 +157,10 @@ function createNBASeasons(seasons){
     for (let i=0; i < seasons.results; i++){
         nbaSeasons = seasons.response
     }
-    // console.log(nbaSeasons)
 
     // after NBA Seasons are created, fetch players
     createNBASeasonsPicklist(nbaSeasons)
+
 }
 
 // Create NBA Seasons selection options
@@ -187,6 +190,9 @@ function createNBATeamsPicklist(teams){
         newOption.setAttribute('teamid', teams[i].id)
         teamPicklist.appendChild(newOption)
     }
+
+    // create placeholder starting 5 cards
+    createPlaceholders(placeHolderCards)
 }
 
 // Handle team selection from picklist
@@ -214,8 +220,6 @@ function handleSeasonSelection(){
     if (selectedTeam.team !== null && selectedTeam.season !== null){
         fetchData('players')
     }
-
-    // console.log(`Selected value: ${seasonPicklist.options[seasonPicklist.selectedIndex].text}`)
 }
 
 
@@ -320,6 +324,7 @@ async function handlePlayerSelection(Event){
 
     // Get add to team button
     let addButtonHTML = document.getElementById('add-to-team')
+    addButtonHTML.classList.add('button')
     addButtonHTML.addEventListener('click', handleAddToTeam)
 
     // Clear popup
@@ -417,17 +422,15 @@ function closePopUp(){
 
 // Handle Add to Team button click
 function handleAddToTeam(){
-    console.log(selectedPlayer)
-    console.log(starting5)
 
     // Add cost to starting 5
     starting5.cost = starting5.cost + selectedPlayer.cost
     
     if (starting5.priceLimit < starting5.cost){
-        console.log(`Before cost: ${starting5.cost}`)
+        // console.log(`Before cost: ${starting5.cost}`)
         window.alert('Buddy,,, you out of money!!')
         starting5.cost = starting5.cost - selectedPlayer.cost
-        console.log(`After cost: ${starting5.cost}`)
+        // console.log(`After cost: ${starting5.cost}`)
         return
     }
 
@@ -440,17 +443,17 @@ function handleAddToTeam(){
     
     // Handle Guard Selection
     if (selectedPlayer.player.position.includes('G') && starting5.numGuards < 2){
-        console.log('Creating a new guard')
+        // console.log('Creating a new guard')
 
         if (starting5.numGuards === 1){
-            console.log('Creating a second guard')
+            // console.log('Creating a second guard')
             starting5.guards[1] = selectedPlayer.player
             starting5.numGuards++
             
             createStarterCard(starting5.guards[1], guard2)
             closePopUp()
         } else if (starting5.numGuards === 0){
-            console.log('creating a first guard')
+            // console.log('creating a first guard')
             starting5.guards[0] = selectedPlayer.player
             starting5.numGuards++
 
@@ -466,16 +469,16 @@ function handleAddToTeam(){
 
     // Handle Forward Selection
     if (selectedPlayer.player.position.includes('F') && starting5.numForwards < 2){
-        console.log('Creating a new forward')
+        // console.log('Creating a new forward')
         if (starting5.numForwards === 1){
-            console.log('Creating a second forward')
+            // console.log('Creating a second forward')
             starting5.forwards[1] = selectedPlayer.player
             starting5.numForwards++
 
             createStarterCard(starting5.forwards[1], forward2)
             closePopUp()
         } else if (starting5.numForwards === 0){
-            console.log('creating a first forward')
+            // console.log('creating a first forward')
             starting5.forwards[0] = selectedPlayer.player
             starting5.numForwards++
 
@@ -491,7 +494,7 @@ function handleAddToTeam(){
 
     // Handle Center Selection
     if (selectedPlayer.player.position.includes('C') && starting5.numCenters === 0){
-        console.log('Creating the center')
+        // console.log('Creating the center')
         starting5.center = selectedPlayer.player
         starting5.numCenters++
 
@@ -508,7 +511,7 @@ function handleAddToTeam(){
 
 // Create Starter Card
 function createStarterCard(player, card){
-
+    
     // Clear card
     card.innerHTML = ''
     let starting5HTML = document.getElementById('starting-5')
@@ -529,7 +532,7 @@ function createStarterCard(player, card){
     card.appendChild(h3)
     card.appendChild(h4)
     card.appendChild(logo)
-    console.log(card)
+
     starting5HTML.append(card)
     document.body.appendChild(starting5HTML)
 
@@ -540,7 +543,7 @@ function createStarterCard(player, card){
     money.innerHTML = ''
     moneyContainer.innerHTML = ''
 
-    console.log(starting5.numCenters + starting5.numForwards + starting5.numGuards)
+    // console.log(starting5.numCenters + starting5.numForwards + starting5.numGuards)
 
     if ((starting5.numCenters + starting5.numForwards + starting5.numGuards) === 5){
         let moneyText = document.createTextNode(`What a good lookin' Starting 5!! You even have $${starting5.priceLimit - starting5.cost} leftover, a team-building savant.`)
@@ -551,6 +554,25 @@ function createStarterCard(player, card){
         money.appendChild(moneyText)
         moneyContainer.appendChild(money)
     }
-    
+}
 
+// Create placeholder cards
+function createPlaceholders(placeholders){
+    let imgSRC = 'https://i.pinimg.com/550x/77/6e/48/776e481a0a0cf29fe057a228b78fbf72.jpg'
+    let starting5HTML = document.getElementById('starting-5')
+    
+    for (let i=0; i < placeholders.length; i++){
+        let newDiv = document.createElement('div')
+        newDiv.setAttribute('id', placeholders[i].id)
+        newDiv.classList.add('starting-card')
+        let newH2 = document.createElement('h2')
+        let newH2Text = document.createTextNode(placeholders[i].text)
+        newH2.appendChild(newH2Text)
+        let newImg = document.createElement('img')
+        newImg.setAttribute('src', imgSRC)
+
+        newDiv.appendChild(newH2)
+        newDiv.appendChild(newImg)
+        starting5HTML.appendChild(newDiv)
+    }
 }

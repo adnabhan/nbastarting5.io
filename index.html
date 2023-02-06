@@ -1,6 +1,7 @@
 <!-- Credits -->
 <!-- https://i.pinimg.com/550x/77/6e/48/776e481a0a0cf29fe057a228b78fbf72.jpg -->
 <!-- https://dev.to/dcodeyt/creating-beautiful-html-tables-with-css-428l -->
+<!-- https://getcssscan.com/css-buttons-examples -->
 
 <link rel="stylesheet" href="css/normalize.css">
 <link rel="stylesheet" href="css/style.css">
@@ -9,8 +10,13 @@
 <body>
     <h1>Make Your All-Time NBA Starting 5!</h1>
     <p>Create the <b>GREATEST</b> Starting 5 EVER (well, from 2015-2022, hehe).</p>
-    <p>Select a season and a team to display the players from that year. Then, select a player to see how much he costs.</p>
+    <p>Select a season and a team to display the players from that year. Then, select a player to see how much they costs.</p>
     <p>Add two guards, two forwards, and a center. <b>BUT</b>.....be wary, you only have $25 to spend!</p>
+
+    <h2>Price Calculation</h2>
+    <p>Prices are generated using season averages for the 5 major statistical categories: Points, Rebounds, Assists, Blocks, and Steals.</p>
+    <p>By averaging the player's season averages across these categoreis (and rounding to the nearest $), we get our price</p>
+    <p><i>Example: Player averages 25 points, 5 rebounds, 3 assists, 1 blocks, and 1 steal, their price is $7.</i></p>
 
     <select id="season-picklist"></select>
     <select id="team-picklist"></select>
@@ -21,13 +27,7 @@
         <div id="money-container">
             <h2 id="money">You have $25 to spend, spend it wisely.</h2>
         </div>
-        <div id="starting-5" class="starting-5-container">
-            <div id="starting-guard-1" class="starting-card"><h2>Guard 1</h2><img src='https://i.pinimg.com/550x/77/6e/48/776e481a0a0cf29fe057a228b78fbf72.jpg'></div>
-            <div id="starting-guard-2" class="starting-card"><h2>Guard 2</h2><img src='https://i.pinimg.com/550x/77/6e/48/776e481a0a0cf29fe057a228b78fbf72.jpg'></div>
-            <div id="starting-forward-1" class="starting-card"><h2>Forward 1</h2><img src='https://i.pinimg.com/550x/77/6e/48/776e481a0a0cf29fe057a228b78fbf72.jpg'></div>
-            <div id="starting-forward-1" class="starting-card"><h2>Forward 2</h2><img src='https://i.pinimg.com/550x/77/6e/48/776e481a0a0cf29fe057a228b78fbf72.jpg'></div>
-            <div id="starting-center" class="starting-card"><h2>Center</h2><img src='https://i.pinimg.com/550x/77/6e/48/776e481a0a0cf29fe057a228b78fbf72.jpg'></div>
-        </div>
+        <div id="starting-5" class="starting-5-container"></div>
     </div>
 
     <div id="popup" class="hidden popup">
